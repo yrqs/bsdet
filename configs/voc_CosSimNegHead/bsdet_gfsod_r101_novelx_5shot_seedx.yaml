@@ -1,0 +1,56 @@
+_BASE_: "../Base-RCNN.yaml"
+MODEL:
+  WEIGHTS: "/Path/to/Base/Pretrain/Weight"
+  MASK_ON: False
+  BACKBONE:
+    FREEZE: False
+  RESNETS:
+    DEPTH: 101
+  RPN:
+    ENABLE_DECOUPLE: True
+    BACKWARD_SCALE: 0.0
+    FREEZE: False
+  ROI_HEADS:
+    OUTPUT_LAYER: "CosSimNegHead"
+    ENABLE_DECOUPLE: True
+    BACKWARD_SCALE: 0.1
+    NUM_CLASSES: 20
+    FREEZE_FEAT: False
+    CLS_DROPOUT: True
+    COS_SCALE: 3
+    NEG_MODE: 3
+    NEG_WEIGHT: 0.3
+    NEG_EMB_TYPE: 'att'
+    NEG_REP_TYPE: 'fc_weight'
+    NEG_CHANNELS: 2048
+    NEG_INPUT_DETACH: True
+    ADD_REG_FC: True
+    REG_FC_CHANNELS: 2048
+  ROI_BOX_HEAD:
+    REG_LOSS_WEIGHT: 2.
+    USE_TRIPLET: True
+    TRIPLET_MARGIN: 0.15
+    USE_NEG_TRIPLET: True
+    TRIPLET_NEG_MARGIN: 0.1
+    NEG_THRESH: 0.3
+    NEG_IOU_THRESH: (0.3, 0.4)
+INPUT:
+  MIN_SIZE_TRAIN: (302, 334, 376, 408, 440, 472, 504, 536, 568, 600)
+  MIN_SIZE_TEST: 600
+  MAX_SIZE_TRAIN: 1000
+  MAX_SIZE_TEST: 1000
+DATASETS:
+  TRAIN: ("voc_2007_trainval_allx_5shot_seedx", )
+  TEST: ('voc_2007_test_allx',)
+SOLVER:
+  IMS_PER_BATCH: 16
+  BASE_LR: 0.01
+  STEPS: (800,)
+  MAX_ITER: 1000
+  CHECKPOINT_PERIOD: 7000
+  WARMUP_ITERS: 20
+TEST:
+  PCB_ENABLE: False
+  PCB_MODELPATH: "/Path/to/ImageNet/Pre-Train/Weight"
+  EVAL_PERIOD: 4000
+OUTPUT_DIR: "/Path/to/Output/Dir"

@@ -1,0 +1,43 @@
+_BASE_: "../Base-RCNN.yaml"
+MODEL:
+  WEIGHTS: "/Path/to/ImageNet/Pretrain/Weight"
+  MASK_ON: False
+  RESNETS:
+    DEPTH: 101
+  RPN:
+    ENABLE_DECOUPLE: True
+    BACKWARD_SCALE: 0.0
+  ROI_HEADS:
+    OUTPUT_LAYER: "CosSimNegHead"
+    NUM_CLASSES: 60
+    ENABLE_DECOUPLE: True
+    BACKWARD_SCALE: 0.75
+    COS_SCALE: 3
+    NEG_MODE: 3
+    NEG_WEIGHT: 0.3
+    SCORE_THRESH_TEST: 0.05
+    NEG_EMB_TYPE: 'att'
+    NEG_REP_TYPE: 'fc_weight'
+    NEG_CHANNELS: 2048
+    NEG_INPUT_DETACH: True
+    ADD_REG_FC: True
+    REG_FC_CHANNELS: 2048
+  ROI_BOX_HEAD:
+    USE_TRIPLET: True
+    TRIPLET_MARGIN: 0.1
+    USE_NEG_TRIPLET: True
+    TRIPLET_NEG_MARGIN: 0.1
+    NEG_THRESH: 0.3
+    NEG_IOU_THRESH: (0.3, 0.4)
+TEST:
+  EVAL_PERIOD: 30000
+DATASETS:
+  TRAIN: ('coco14_trainval_base',)
+  TEST: ('coco14_test_base',)
+SOLVER:
+  IMS_PER_BATCH: 16
+  STEPS: (100000, 115000)
+  MAX_ITER: 125000
+  CHECKPOINT_PERIOD: 200000
+  WARMUP_ITERS: 200
+OUTPUT_DIR: "/Path/to/Output/Dir"
