@@ -41,7 +41,6 @@ DATASETS:
   TRAIN: ('voc_2007_trainval_base1', 'voc_2012_trainval_base1')
   TEST: ('voc_2007_test_base1',)
 SOLVER:
-  IMS_PER_BATCH: 4
   STEPS: (10000, 13300)
   MAX_ITER: 15000
   CHECKPOINT_PERIOD: 15000
