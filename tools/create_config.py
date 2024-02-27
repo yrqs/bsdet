@@ -32,7 +32,7 @@ def main():
     suffix = 'novel' if args.setting == 'fsod' else 'all'
 
     if args.dataset in ['voc']:
-        name_template = 'defrcn_{}_r101_novelx_{}shot_seedx.yaml'
+        name_template = 'bsdet_{}_r101_novelx_{}shot_seedx.yaml'
         yaml_path = os.path.join(args.config_root, name_template.format(args.setting, args.shot))
         yaml_info = load_config_file(yaml_path)
         for i, lineinfo in enumerate(yaml_info):
@@ -44,7 +44,7 @@ def main():
                 yaml_info[i] = _str_.format(suffix, args.split)
         yaml_path = yaml_path.replace('novelx', 'novel{}'.format(args.split))
     elif args.dataset in ['coco14']:
-        name_template = 'defrcn_{}_r101_novel_{}shot_seedx.yaml'
+        name_template = 'bsdet_{}_r101_novel_{}shot_seedx.yaml'
         yaml_path = os.path.join(args.config_root, name_template.format(args.setting, args.shot))
         yaml_info = load_config_file(yaml_path)
         for i, lineinfo in enumerate(yaml_info):
